@@ -5,10 +5,11 @@
    font-family: Arial, Helvetica, sans-serif;
 }
 body {
-   height: 100vh;
    display: grid;
-   place-content: center;
+   place-items: center;
    background-color: rgb(217, 227, 255);
+   height: 100vh;
+   overflow-y: hidden;
    // background: linear-gradient(200deg, rgb(38, 1, 63), rgb(115, 0, 81));
 }
 
