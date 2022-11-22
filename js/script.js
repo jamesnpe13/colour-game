@@ -6,7 +6,7 @@ var canClick = false;
 var roundMaxTime = 15;
 var timeAdd = 8;
 var currentTime;
-var buttonQty = 6;
+var buttonQty = 9;
 
 var userObject = {
    correct_answers: 0,
@@ -16,14 +16,29 @@ var userObject = {
    highscore: 0,
 };
 
-window.onload = () => {
-   openModal("firstGame");
-};
+document.addEventListener("DOMContentLoaded", main);
 
+function main() {
+   openModal("firstGame");
+}
 // play button
-var playButton = document.querySelector(".play-button");
-playButton.addEventListener("click", () => {
-   newGame();
+var playButtons = document.querySelectorAll(".play-button");
+
+playButtons.forEach((button) => {
+   button.addEventListener("click", () => {
+      var difficulty = button.getAttribute("data-difficulty");
+
+      if (difficulty == "easy") {
+         buttonQty = 3;
+      } else if (difficulty == "normal") {
+         buttonQty = 6;
+      } else if (difficulty == "hard") {
+         buttonQty = 9;
+      } else if (difficulty == "pro") {
+         buttonQty = 12;
+      }
+      newGame();
+   });
 });
 
 /* =================================================
@@ -41,8 +56,8 @@ function newGame() {
 function reloadALL() {
    showAllButtons();
    generateRandomColors();
-   createButtons(buttonQty);
    selectColor();
+   createButtons(buttonQty);
 
    canClick = true;
 }
@@ -58,7 +73,7 @@ function generateRandomNumber(maxNum) {
 function generateRandomColors() {
    var numberOfColors = buttonQty;
 
-   colorsArray.splice(0, 6);
+   colorsArray.splice(0, buttonQty);
    for (i = 0; i < numberOfColors; i++) {
       var color1 = generateRandomNumber(255 + 1);
       var color2 = generateRandomNumber(255 + 1);
@@ -72,6 +87,12 @@ function generateRandomColors() {
 // create buttons
 function createButtons(num) {
    var buttonContainer = document.querySelector(".grid-container");
+   var buttonsArray = buttonContainer.querySelectorAll(".option-button");
+
+   buttonsArray.forEach((item) => {
+      item.remove();
+   });
+
    for (i = 0; i < num; i++) {
       var button = document.createElement("div");
       buttonContainer.appendChild(button);
@@ -85,16 +106,16 @@ function createButtons(num) {
 
 // pick a random item from array
 function selectColor() {
-   chosenColor = colorsArray[generateRandomNumber(6)];
+   chosenColor = colorsArray[generateRandomNumber(buttonQty)];
 }
 
 // update UI
 function updateUI() {
+   console.log(chosenColor);
+   questionText.textContent = chosenColor;
    for (i = 0; i < buttons.length; i++) {
       buttons[i].style.backgroundColor = colorsArray[i];
    }
-
-   questionText.textContent = chosenColor;
 }
 
 // on click match event.target color to selected item in array
@@ -244,17 +265,16 @@ function openModal(type) {
    var header = modal.querySelector(".header");
    var score = modal.querySelector(".score");
    var highscore = modal.querySelector(".highscore");
-   var playButtonText = playButton.querySelector("span");
 
    if (type == "firstGame") {
       header.textContent = "New Game";
-      playButtonText.textContent = "Play";
+      // playButtonText.textContent = "Play";
    } else if (type == "playAgain") {
       header.textContent = "Out of lives";
-      playButtonText.textContent = "Play Again";
+      // playButtonText.textContent = "Play Again";
    } else if (type == "timeout") {
       header.textContent = "Timeout!";
-      playButtonText.textContent = "Play Again";
+      // playButtonText.textContent = "Play Again";
    }
    score.textContent = `You scored: ${userObject.correct_answers}`;
    highscore.textContent = `Personal best: ${userObject.highscore}`;

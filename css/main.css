@@ -13,11 +13,16 @@ body {
 }
 
 .game-container {
-  width: 800px;
+  width: auto;
   height: auto;
   display: grid;
   grid-template-columns: 1fr 200px;
   gap: 20px;
+}
+@media screen and (max-width: 850px) {
+  .game-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .game-container > * {
@@ -63,6 +68,8 @@ body {
   background-color: rgb(153, 153, 219);
   width: 100px;
   height: 100px;
+  width: min(100px, 20vw);
+  height: min(100px, 20vw);
   cursor: pointer;
   box-shadow: 5px 5px 15px rgba(72, 49, 66, 0.4), inset 4px 4px 8px rgba(255, 227, 253, 0.48), inset -4px -4px 8px rgba(0, 0, 0, 0.256);
   border-radius: 8px;
@@ -91,6 +98,7 @@ body {
 .tracking-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 .tracking-container span {
@@ -118,7 +126,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 300px;
+  height: auto;
   border: none;
   border-radius: 10px;
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.195);
@@ -128,16 +136,23 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
   height: 100%;
+  padding: 40px;
 }
 .dynamic-modal .container h4 {
   color: rgb(60, 109, 222);
   font-size: 1.8em;
 }
-.dynamic-modal .container .play-button {
+.dynamic-modal .container .button-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  gap: 20px;
+}
+.dynamic-modal .container .button-container .play-button {
   height: 50px;
-  width: 150px;
+  width: 100%;
   background-color: rgb(112, 149, 236);
   border-radius: 5px;
   display: grid;
@@ -151,7 +166,7 @@ body {
   color: white;
   font-size: 1.2em;
 }
-.dynamic-modal .container .play-button:hover {
+.dynamic-modal .container .button-container .play-button:hover {
   scale: 1.1;
 }
 .dynamic-modal::-webkit-backdrop {
